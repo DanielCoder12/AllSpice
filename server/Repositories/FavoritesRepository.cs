@@ -36,7 +36,7 @@ public class FavoritesRepository
         rep.*,
         acc.*
         FROM favorites fav
-        JOIN recipes rep ON rep.creatorId = fav.accountId 
+        JOIN recipes rep ON rep.id = fav.recipeId
         JOIN accounts acc ON acc.id = rep.creatorId
         WHERE fav.accountId = @accountId;";
         List<FavoriteRecipes> favorites = _db.Query<Favorite, FavoriteRecipes, Account, FavoriteRecipes>(sql, (favorite, favoriteRecipe, profile) =>

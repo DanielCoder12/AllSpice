@@ -8,7 +8,11 @@
             <div class=" ">
                 <!-- TODO MAKE THIS WORK -->
                 <p class="mb-0 px-2 me-3 bg-dark rounded-bottom ">
-                    <i class="mdi mdi-heart text-danger fs-3"></i>
+                    <i @click="unFavorite()" role="button" title="un-favorite"
+                        v-if="favorite.filter(f => f.accountId == recipe.creatorId) != 0"
+                        class="mdi mdi-heart text-danger fs-3"></i>
+                    <i @click="favorite()" role="button" title="favorite" v-else
+                        class="mdi mdi-heart-outline text-danger fs-3"></i>
                 </p>
             </div>
         </div>
@@ -28,11 +32,23 @@
 import { AppState } from '../AppState';
 import { computed, reactive, onMounted } from 'vue';
 import { Recipe } from '../models/Recipe';
+import Pop from '../utils/Pop';
+import { favoritesService } from '../services/FavoritesService'
 export default {
     props: { recipe: { type: Recipe } },
     setup() {
 
-        return {}
+        return {
+
+            favorite: computed(() => AppState.favorites.filter(f => f.favoriteId)),
+            async unFavorite() {
+                try {
+                    await favoritesService.unFavorite()
+                } catch (error) {
+                    Pop.error(error)
+                }
+            }
+        }
     }
 };
 </script>

@@ -55,3 +55,12 @@ FROM favorites fav
     JOIN accounts acc ON fav.accountId = acc.id
 WHERE
     fav.accountId = "6541814359b43990cb08b854";
+
+SELECT * FROM favorites
+
+SELECT fav.*, rep.*, acc.*
+FROM favorites fav
+    JOIN recipes rep ON rep.id = fav.recipeId
+    JOIN accounts acc ON acc.id = rep.creatorId
+WHERE
+    fav.accountId = "6541814359b43990cb08b854";
