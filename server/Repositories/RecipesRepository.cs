@@ -3,6 +3,7 @@
 
 
 
+
 namespace AllSpice.Repositories;
 
 public class RecipesRepository
@@ -73,6 +74,15 @@ public class RecipesRepository
             return rec;
         }).ToList();
         return recipes;
+    }
+
+    internal List<Ingredient> GetIngredientsById(int recipeId)
+    {
+        string sql = @"
+        SELECT * FROM ingredients WHERE recipeId = @recipeId;";
+
+        List<Ingredient> ingredients = _db.Query<Ingredient>(sql, new { recipeId }).ToList();
+        return ingredients;
     }
 
     internal Recipe GetRecipeById(int recipeId)

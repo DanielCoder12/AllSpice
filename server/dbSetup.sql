@@ -18,7 +18,40 @@ CREATE TABLE
         img VARCHAR(500) NOT NULL,
         category VARCHAR(100) NOT NULL,
         creatorId VARCHAR(255) NOT NULL,
-        Foreign Key (creatorId) REFERENCES accounts(id)
+        Foreign Key (creatorId) REFERENCES accounts(id) ON DELETE CASCADE
     ) default charset utf8 COMMENT '';
 
 DROP TABLE recipes;
+
+CREATE TABLE
+    IF NOT EXISTS ingredients(
+        id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+        name VARCHAR(500) NOT NULL,
+        quantity VARCHAR(100) NOT NULL,
+        recipeId INT NOT NULL,
+        creatorId VARCHAR(255) NOT NULL,
+        FOREIGN KEY (recipeId) REFERENCES recipes(id) ON DELETE CASCADE,
+        FOREIGN KEY (creatorId) REFERENCES accounts(id) ON DELETE CASCADE
+    ) default charset utf8 COMMENT '';
+
+DROP TABLE ingredients;
+
+SELECT * FROM ingredients WHERE id = LAST_INSERT_ID();
+
+CREATE TABLE
+    IF NOT EXISTS favorites (
+        id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+        accountId VARCHAR(255) NOT NULL,
+        recipeId INT NOT NULL,
+        FOREIGN KEY (accountId) REFERENCES accounts(id) ON DELETE CASCADE,
+        FOREIGN KEY (recipeId) REFERENCES recipes(id) ON DELETE CASCADE,
+        UNIQUE(accountId, recipeId)
+    ) default charset utf8 COMMENT '';
+
+DROP TABLE favorites;
+
+SELECT fav.*, acc.*
+FROM favorites fav
+    JOIN accounts acc ON fav.accountId = acc.id
+WHERE
+    fav.accountId = "6541814359b43990cb08b854";

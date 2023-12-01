@@ -94,4 +94,20 @@ public class RecipesController : ControllerBase
             return BadRequest(e.Message);
         }
     }
+
+    [HttpGet("{recipeId}/ingredients")]
+    public ActionResult<List<Ingredient>> GetIngredientsById(int recipeId)
+    {
+        try
+        {
+            List<Ingredient> recipes = _recipesService.GetIngredientsById(recipeId);
+            return Ok(recipes);
+
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+
+    }
 }
