@@ -14,6 +14,11 @@ public class FavoritesService
 
     internal Favorite CreateFavorite(Favorite favoriteData)
     {
+        List<FavoriteRecipes> favorites = GetAccFavorites(favoriteData.AccountId);
+        if (favorites.Any(f => f.Id == favoriteData.RecipeId))
+        {
+            throw new Exception("you already favorite this");
+        }
         Favorite favorite = _repo.CreateFavorite(favoriteData);
         return favorite;
     }
