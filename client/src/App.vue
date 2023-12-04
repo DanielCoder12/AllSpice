@@ -3,14 +3,22 @@
 
   </header>
   <main>
-    <router-view />
+    <create-recipe-button />
+    <div class="offset">
+
+      <router-view />
+    </div>
   </main>
+  <footer>
+  </footer>
+  
 </template>
 
 <script>
 import { computed } from 'vue'
 import { AppState } from './AppState'
 import Navbar from './components/Navbar.vue'
+import CreateRecipeButton from './components/CreateRecipeButton.vue'
 
 export default {
   setup() {
@@ -18,7 +26,7 @@ export default {
       appState: computed(() => AppState)
     }
   },
-  components: { Navbar }
+  components: { Navbar, CreateRecipeButton }
 }
 </script>
 <style lang="scss">
@@ -38,5 +46,14 @@ footer {
 .custom-font {
   font-family: 'Bebas Neue', sans-serif;
   font-family: 'Sahitya', serif;
+}
+
+.create-button {
+  position: sticky;
+}
+
+.offset {
+  position: relative;
+  top: -5rem;
 }
 </style>

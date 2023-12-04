@@ -1,10 +1,12 @@
 <template>
   <div class="container-fluid">
+
     <section class="row">
       <!-- header -->
       <div class="col-12">
         <HeaderCard />
       </div>
+
       <!-- filter button -->
       <div class="col-12 d-flex justify-content-center">
         <FilterButton />
@@ -13,18 +15,24 @@
       <div class="col-12">
         <section class="row">
           <div class="col-4 p-5" v-for="recipe in recipes" :key="recipe.id">
+            <div class="px-4 py-3">
+              <RecipeCard :recipe="recipe" />
 
-            <RecipeCard :recipe="recipe" />
+            </div>
 
 
           </div>
+
         </section>
+
+
       </div>
 
 
 
     </section>
   </div>
+  
 </template>
 
 <script>
@@ -34,6 +42,9 @@ import HeaderCard from '../components/HeaderCard.vue';
 import { AppState } from '../AppState';
 import { recipesService } from '../services/RecipesService'
 import RecipeCard from '../components/RecipeCard.vue';
+import Pop from '../utils/Pop';
+import CreateRecipeButton from '../components/CreateRecipeButton.vue';
+import ReuseableModal from '../components/ReuseableModal.vue';
 
 export default {
   setup() {
@@ -41,13 +52,18 @@ export default {
       getRecipes()
     })
     async function getRecipes() {
-      await recipesService.getRecipes()
+      try {
+
+        await recipesService.getRecipes()
+      } catch (error) {
+        Pop.error(error)
+      }
     }
     return {
       recipes: computed(() => AppState.recipes),
     };
   },
-  components: { HeaderCard, FilterButton, RecipeCard }
+  components: { HeaderCard, FilterButton, RecipeCard, CreateRecipeButton, ReuseableModal }
 }
 </script>
 
@@ -70,6 +86,15 @@ export default {
       object-position: center;
     }
   }
+
+  .createButton {
+    position: sticky;
+    top: 20px;
+    overflow: hidden;
+
+  }
+
+
 
   // .filter-position {
   //   position: relative;
