@@ -5,13 +5,11 @@
   <main>
     <create-recipe-button />
     <div class="offset">
-
       <router-view />
     </div>
   </main>
   <footer>
   </footer>
-  
 </template>
 
 <script>
@@ -48,9 +46,6 @@ footer {
   font-family: 'Sahitya', serif;
 }
 
-.create-button {
-  position: sticky;
-}
 
 .offset {
   position: relative;

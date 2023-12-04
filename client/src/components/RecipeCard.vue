@@ -1,4 +1,5 @@
 <template>
+    <!-- FIXME FIX IMAGES -->
     <div class="background-img shadow d-flex flex-column justify-content-between  rounded"
         :style="{ backgroundImage: `url(${recipe.img})` }">
         <div class="d-flex text-white justify-content-between">
@@ -45,8 +46,8 @@ export default {
             async unFavorite(recipeId) {
                 try {
                     const favorite = this.favorites.find(f => f.id == recipeId)
-                    logger.log(AppState.favorites[0])
-                    logger.log(recipeId)
+                    // logger.log(AppState.favorites[0])
+                    // logger.log(recipeId)
                     await favoritesService.unFavorite(favorite.favoriteId)
                 } catch (error) {
                     Pop.error(error)
@@ -72,7 +73,7 @@ export default {
 }
 
 .background-img {
-    height: 30rem;
+    height: 25rem;
     width: 100%;
 }
 </style>

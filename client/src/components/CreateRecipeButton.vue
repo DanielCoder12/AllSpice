@@ -1,12 +1,11 @@
 <template>
     <div class="d-flex justify-content-end  relative-button">
         <!-- FIXME MAKE NOT DISAPPEAR ON HOVER -->
-        <button data-bs-toggle="modal" data-bs-target="#exampleModal" role="button"
+        <button data-bs-toggle="modal" data-bs-target="#recipeModal" role="button"
             class="btn shadow button-color rounded-circle">
             <i class="mdi mdi-plus text-white fs-1 p-2"></i>
         </button>
     </div>
-    <ReuseableModal />
 </template>
 
 
@@ -24,7 +23,7 @@ export default {
 <style lang="scss" scoped>
 .relative-button {
     position: sticky;
-    top: 53rem;
+    top: 85dvh;
     height: 5rem;
     z-index: 1050;
 }

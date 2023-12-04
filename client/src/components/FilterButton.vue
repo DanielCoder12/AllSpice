@@ -1,7 +1,7 @@
 <template>
     <div class="rounded filter-position bg-white d-flex shadow">
         <div class="d-flex" v-for="f in filters" :key="f">
-            <button class="btn custom-font text-grn fs-5 px-5 py-3">{{ f }}</button>
+            <button @click="changeFilter(f)" class="btn custom-font text-grn fs-5 px-5 py-3">{{ f }}</button>
 
         </div>
     </div>
@@ -10,12 +10,17 @@
 
 <script>
 import { AppState } from '../AppState';
-import { computed, reactive, onMounted } from 'vue';
+import { computed, reactive, onMounted, ref } from 'vue';
+import { logger } from '../utils/Logger';
+import { recipesService } from '../services/RecipesService';
 export default {
     setup() {
         const filters = ["Home", "My Recipes", "Favorites"]
         return {
-            filters
+            filters,
+            changeFilter(filter) {
+                recipesService.changeFilter(filter)
+            }
         }
     }
 };

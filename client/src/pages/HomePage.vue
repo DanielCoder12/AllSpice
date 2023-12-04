@@ -14,7 +14,7 @@
       <!-- recipes -->
       <div class="col-12">
         <section class="row">
-          <div class="col-4 p-5" v-for="recipe in recipes" :key="recipe.id">
+          <div class="col-4 p-4" v-for="recipe in recipes" :key="recipe.id">
             <div class="px-4 py-3">
               <RecipeCard :recipe="recipe" />
 
@@ -32,7 +32,7 @@
 
     </section>
   </div>
-  
+  <CreateRecipeModal />
 </template>
 
 <script>
@@ -44,7 +44,7 @@ import { recipesService } from '../services/RecipesService'
 import RecipeCard from '../components/RecipeCard.vue';
 import Pop from '../utils/Pop';
 import CreateRecipeButton from '../components/CreateRecipeButton.vue';
-import ReuseableModal from '../components/ReuseableModal.vue';
+import CreateRecipeModal from '../components/CreateRecipeModal.vue';
 
 export default {
   setup() {
@@ -60,10 +60,10 @@ export default {
       }
     }
     return {
-      recipes: computed(() => AppState.recipes),
+      recipes: computed(() => AppState.filteredRecipes),
     };
   },
-  components: { HeaderCard, FilterButton, RecipeCard, CreateRecipeButton, ReuseableModal }
+  components: { HeaderCard, FilterButton, RecipeCard, CreateRecipeButton, CreateRecipeModal }
 }
 </script>
 
