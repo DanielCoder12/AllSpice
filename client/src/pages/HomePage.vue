@@ -33,6 +33,7 @@
     </section>
   </div>
   <CreateRecipeModal />
+  <RecipeDetailsModal />
 </template>
 
 <script>
@@ -45,6 +46,7 @@ import RecipeCard from '../components/RecipeCard.vue';
 import Pop from '../utils/Pop';
 import CreateRecipeButton from '../components/CreateRecipeButton.vue';
 import CreateRecipeModal from '../components/CreateRecipeModal.vue';
+import RecipeDetailsModal from '../components/RecipeDetailsModal.vue';
 
 export default {
   setup() {
@@ -63,7 +65,7 @@ export default {
       recipes: computed(() => AppState.filteredRecipes),
     };
   },
-  components: { HeaderCard, FilterButton, RecipeCard, CreateRecipeButton, CreateRecipeModal }
+  components: { HeaderCard, FilterButton, RecipeCard, CreateRecipeButton, CreateRecipeModal, RecipeDetailsModal }
 }
 </script>
 

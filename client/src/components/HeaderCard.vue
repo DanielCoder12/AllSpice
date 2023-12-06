@@ -6,9 +6,8 @@
             :style="{ backgroundImage: 'url(https://i0.wp.com/www.faithanddoubt.com/wp-content/uploads/hossein-farahani-pqJ21tErTgI-unsplash-edited-scaled.jpg?fit=2560%2C1437&ssl=1)', }">
             <div class="d-flex p-3 justify-content-end">
                 <!-- TODO MAKE SEARCH WORK -->
-                <form class="d-flex" action="">
-                    <input placeholder="Search..." type="email" class="form-control" id="exampleInputEmail1"
-                        aria-describedby="emailHelp">
+                <form @submit.prevent="searchHomePage()" class="d-flex" action="">
+                    <input v-model="search" placeholder="Search..." type="text" class="form-control" id="search">
                     <button type="submit" class="btn btn-white"><i class="mdi mdi-magnify"></i></button>
                 </form>
                 <div class="ps-3">
@@ -28,11 +27,18 @@
 
 <script>
 import { AppState } from '../AppState';
-import { computed, reactive, onMounted } from 'vue';
+import { computed, reactive, onMounted, ref } from 'vue';
 import Login from './Login.vue';
+import { recipesService } from '../services/RecipesService';
 export default {
     setup() {
-        return {};
+        const search = ref('')
+        return {
+            search,
+            searchHomePage() {
+                recipesService.searchHomePage(search.value)
+            }
+        };
     },
     components: { Login }
 };

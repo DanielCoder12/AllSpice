@@ -15,7 +15,6 @@ class RecipesService {
 
     async createRecipe(formData) {
         const res = await api.post('api/recipes', formData)
-        debugger
         logger.log(res.data)
         if (AppState.filter === 'Favorites') {
             logger.log('one added')
@@ -24,11 +23,15 @@ class RecipesService {
         }
         if (AppState.filter === 'Home') {
             AppState.recipes.push(new Recipe(res.data))
+            AppState.filteredRecipes = AppState.recipes
             return
         }
-        logger.log('two added')
-        AppState.recipes.push(new Recipe(res.data))
-        AppState.filteredRecipes.push(new Recipe(res.data))
+        if (AppState.filter === 'My Recipes') {
+            logger.log('two added')
+            AppState.recipes.push(new Recipe(res.data))
+            this.changeFilter('My Recipes')
+            return
+        }
     }
     changeFilter(filter) {
         if (filter == 'Home') {
@@ -48,6 +51,30 @@ class RecipesService {
             AppState.filteredRecipes = filteredRecipes
         }
         AppState.filter = filter
+    }
+    async setActiveRecipe(recipe) {
+        AppState.activeRecipe = {}
+        const res = await api.get(`api/recipes/${recipe.id}`)
+        AppState.activeRecipe = new Recipe(res.data)
+    }
+
+    searchHomePage(search) {
+        if (search == '') {
+            AppState.filteredRecipes = AppState.recipes
+        }
+        this.changeFilter(AppState.filter)
+        AppState.filteredRecipes = AppState.filteredRecipes.filter(r => r.category.toLowerCase().includes(search.toLowerCase()))
+    }
+
+    async deleteRecipe(recipeId) {
+        await api.delete(`api/recipes/${recipeId}`)
+        AppState.recipes = AppState.recipes.filter(r => r.id != recipeId)
+        AppState.filteredRecipes = AppState.filteredRecipes.filter(r => r.id != recipeId)
+    }
+
+    async saveInstructions(instructions, recipeId) {
+        const newRecipe = await api.put(`api/recipes/${recipeId}`, instructions)
+
     }
 }
 

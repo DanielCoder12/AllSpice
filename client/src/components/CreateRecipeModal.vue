@@ -2,9 +2,10 @@
     <div class="modal fade" id="recipeModal" tabindex="-1" aria-labelledby="recipeModal" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header bg-green">
+                <div class="modal-header py-1 bg-green">
                     <h5 class="modal-title custom-font" id="recipeModal">New Recipe</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn fs-3 text-white mdi mdi-close" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
                 </div>
                 <form @submit.prevent="createRecipe()">
                     <div class="modal-body">
