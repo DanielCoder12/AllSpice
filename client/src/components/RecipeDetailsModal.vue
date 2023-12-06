@@ -42,6 +42,8 @@
                                     <form v-if="recipe.creatorId == account.id" @submit.prevent="saveInstructions()">
                                         <textarea v-model="data.instructions" class="rounded" name=""
                                             id="">{{ recipe.instructions }}</textarea>
+                                        <!-- <button @click="unlock()" v-if="isLocked == true" type="button"
+                                            class="btn btn-secondary">Edit</button> -->
                                         <button type="submit" class="btn btn-success">Save</button>
                                     </form>
                                     <textarea v-else disabled name="" id=""
@@ -70,7 +72,21 @@
                                         <p>{{ ingredients[0]?.name }}</p>
                                     </div> -->
                                 </template>
-                                <template #form>form</template>
+                                <template #form>
+                                    <!-- FIXME MAKE LOOK BETTER -->
+                                    <form v-if="recipe.creatorId == account.id" @submit.prevent="addIngredient()"
+                                        class="d-flex">
+
+                                        <input v-model="data.name" type="text" class="form-control"
+                                            placeholder="Add Ingredients...">
+                                        <input v-model="data.quantity" type="text" class="form-control"
+                                            placeholder="Add Quantity...">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-outline-secondary bg-white" type="submit"><i
+                                                    class="mdi mdi-plus"></i></button>
+                                        </div>
+                                    </form>
+                                </template>
                             </ModalCard>
 
 
@@ -97,12 +113,13 @@ import { logger } from '../utils/Logger';
 
 export default {
     setup() {
+        let isLocked = true
         const data = ref({})
         watchEffect(() => {
             AppState.activeRecipe
             getIngredients(),
                 data.value = { instructions: AppState.activeRecipe.instructions }
-
+            isLocked = true
         })
         async function getIngredients() {
             try {
@@ -112,15 +129,35 @@ export default {
             }
         }
         return {
+            isLocked,
             data,
             recipe: computed(() => AppState.activeRecipe),
             account: computed(() => AppState.account),
             favorites: computed(() => AppState.favorites),
             ingredients: computed(() => AppState.activeIngredients),
+            unlock() {
+                isLocked = false
+                logger.log(isLocked)
+            },
+            async addIngredient() {
+                try {
+                    const newIngredient = {
+                        quantity: data.value.quantity,
+                        name: data.value.name,
+                        recipeId: this.recipe.id
+                    }
+                    await recipesService.addIngredient(newIngredient)
+                    data.value.quantity = ''
+                    data.value.name = ''
+                } catch (error) {
+
+                }
+            },
             async saveInstructions() {
                 try {
                     logger.log(data.value)
-                    await recipesService.saveInstructions(data.value, this.recipe.id)
+                    await recipesService.saveInstructions(data.value.instructions, this.recipe.id)
+                    isLocked = true
                 } catch (error) {
                     Pop.error(error)
                 }

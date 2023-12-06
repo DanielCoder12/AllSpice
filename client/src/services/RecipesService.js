@@ -1,4 +1,5 @@
 import { AppState } from "../AppState"
+import { Ingredient } from "../models/Ingredient"
 import { Recipe } from "../models/Recipe"
 import { logger } from "../utils/Logger"
 import { api } from "./AxiosService"
@@ -73,8 +74,14 @@ class RecipesService {
     }
 
     async saveInstructions(instructions, recipeId) {
-        const newRecipe = await api.put(`api/recipes/${recipeId}`, instructions)
+        const newRecipe = await api.put(`api/recipes/${recipeId}`, { instructions })
 
+    }
+
+    async addIngredient(ingredient) {
+        const res = await api.post('api/ingredients', ingredient)
+        logger.log('new ingredient', res.data)
+        AppState.activeIngredients.push(new Ingredient(res.data))
     }
 }
 
