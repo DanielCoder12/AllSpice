@@ -10,7 +10,8 @@
                             <!-- TODO MAKE THIS WORK -->
                             <p class="mb-0 px-2 me-2 align-items-start w-100 justify-content-end d-flex rounded-bottom ">
                                 <i @click="deleteRecipe(recipe.id)" v-if="account.id == recipe.creator.id" role="button"
-                                    title="delete" class="mdi trash-position bg-blur rounded-bottom fs-1 mdi-delete"></i>
+                                    title="delete recipe"
+                                    class="mdi trash-position bg-blur rounded-bottom fs-1 mdi-delete"></i>
                                 <i role="button" title="close modal" data-bs-dismiss="modal" aria-label="Close"
                                     class="mdi mdi-close x-position fs-3"></i>
                                 <i @click="unFavorite(recipe.id)" role="button" title="un-favorite"
@@ -26,12 +27,14 @@
                             <div>
                             </div>
                             <div class="d-flex align-items-center">
-                                <h2 class="mb-0">{{ recipe.title }}</h2>
-                                <p class="bg-gray rounded-pill px-2 text-white mb-0">{{ recipe.category }}</p>
+                                <h2 class="mb-0 text-break width">{{ recipe.title }}</h2>
+                                <p class="bg-gray rounded-pill ms-3 me-5 px-2 text-white mb-0">{{ recipe.category }}</p>
                             </div>
                             <p>{{ recipe.creator.name }}'s recipe</p>
                         </div>
-                        <div class="d-flex h-75">
+                        <div class="d-flex h-75 position ">
+                            <!-- <div class="w-50"> -->
+
                             <ModalCard>
                                 <template #title>
                                     <p class="mb-0">Recipe Steps</p>
@@ -39,18 +42,25 @@
                                 <template #body>
                                     <!-- FIXME ADD EDIT BUTTON THAT TAKES OFF DISABLED PROPERTY -->
                                     <!-- leave it disabled until user clicks edit -->
-                                    <form v-if="recipe.creatorId == account.id" @submit.prevent="saveInstructions()">
-                                        <textarea v-model="data.instructions" class="rounded" name=""
+                                    <form v-if="recipe.creatorId == account.id" @submit.prevent="saveInstructions()"
+                                        class="text-end height w-100">
+                                        <textarea maxlength="1000" v-model="data.instructions" class="rounded p-2" name=""
                                             id="">{{ recipe.instructions }}</textarea>
-                                        <!-- <button @click="unlock()" v-if="isLocked == true" type="button"
+                                        <!-- <button @click=" unlock()" v-if="isLocked == true" type="button"
                                             class="btn btn-secondary">Edit</button> -->
-                                        <button type="submit" class="btn btn-success">Save</button>
+                                        <button type="submit" class="btn btn-success py-1">Save</button>
                                     </form>
+
+
                                     <textarea v-else disabled name="" id=""
-                                        class="rounded"> {{ recipe.instructions }}</textarea>
+                                        class="rounded p-2"> {{ recipe.instructions }}</textarea>
+
                                 </template>
                                 <!-- <template #form>form</template> -->
                             </ModalCard>
+                            <!-- </div> -->
+                            <!-- <div class="w-50"> -->
+
                             <!-- FIXME FIX THE FORM SO YOU CAN ADD AND DELETE INGREDIENTS -->
                             <ModalCard>
                                 <template #title>
@@ -60,12 +70,16 @@
                                     <div v-if="!ingredients[0]?.name">
                                         no ingredients
                                     </div>
-                                    <div class="d-flex" v-else v-for="ingredient in ingredients" :key="ingredient.id">
-                                        <p>
-                                            {{ ingredient.quantity }}
-                                        </p>
-                                        <p>
+                                    <div v-else class="overflow">
+
+                                        <p class="mb-1 d-flex justify-content-between text-break"
+                                            v-for="ingredient in ingredients" :key="ingredient.id">{{
+                                                ingredient.quantity }}
                                             {{ ingredient.name }}
+                                            <span v-if="recipe.creatorId == account.id" class="text-end text-break"><i
+                                                    @click="deleteIngredient(ingredient.id)"
+                                                    class="mdi mdi-delete text-danger" title="delete ingredient"
+                                                    role="button"></i></span>
                                         </p>
                                     </div>
                                     <!-- <div v-else>
@@ -77,17 +91,18 @@
                                     <form v-if="recipe.creatorId == account.id" @submit.prevent="addIngredient()"
                                         class="d-flex">
 
-                                        <input v-model="data.name" type="text" class="form-control"
+                                        <input maxlength="25" v-model="data.name" type="text" class="form-control"
                                             placeholder="Add Ingredients...">
-                                        <input v-model="data.quantity" type="text" class="form-control"
+                                        <input maxlength="15" v-model="data.quantity" type="text" class="form-control"
                                             placeholder="Add Quantity...">
                                         <div class="input-group-append">
-                                            <button class="btn btn-outline-secondary bg-white" type="submit"><i
-                                                    class="mdi mdi-plus"></i></button>
+                                            <button title="submit" class="btn btn-outline-secondary bg-white"
+                                                type="submit"><i class="mdi mdi-plus"></i></button>
                                         </div>
                                     </form>
                                 </template>
                             </ModalCard>
+                            <!-- </div> -->
 
 
                         </div>
@@ -162,6 +177,17 @@ export default {
                     Pop.error(error)
                 }
             },
+            async deleteIngredient(ingredientId) {
+                try {
+                    const yes = await Pop.confirm('Are you sure you would like to delete this ingredient?')
+                    if (!yes) {
+                        return
+                    }
+                    await ingredientsService.deleteIngredient(ingredientId)
+                } catch (error) {
+                    Pop.error(error)
+                }
+            },
             async deleteRecipe(recipeId) {
                 try {
                     const yes = await Pop.confirm('Are you sure you want to delete your recipe?')
@@ -201,6 +227,17 @@ export default {
 
 
 <style lang="scss" scoped>
+// FIXME FIX IT SO IT SCROLLS WHEN THEY PUT IN A LOT OF INGREDIENTS
+// .overflow {
+//     height: 100%;
+//     overflow: scroll;
+// }
+.position {
+    position: absolute;
+    width: 67%;
+    top: 7rem;
+}
+
 textarea {
     width: 100%;
     height: 100%;
@@ -209,6 +246,12 @@ textarea {
     border: none;
 
 }
+
+.height {
+    height: 88%;
+}
+
+
 
 
 .x-position {

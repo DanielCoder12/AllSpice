@@ -15,6 +15,11 @@ class IngredientsService {
         AppState.activeIngredients = res.data.map(i => new Ingredient(i))
     }
 
+    async deleteIngredient(ingredientId) {
+        await api.delete(`api/ingredients/${ingredientId}`)
+        AppState.activeIngredients = AppState.activeIngredients.filter(i => i.id != ingredientId)
+    }
+
 
 }
 

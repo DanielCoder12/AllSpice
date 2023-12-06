@@ -1,6 +1,6 @@
 <template>
     <div class="modal-card  p-4 pb-0">
-        <div class="h-100 d-flex flex-column">
+        <div class="h-100 d-flex shadow rounded flex-column">
 
             <div class="text-center fs-5 text-white p-2 rounded-top bg-green">
                 <slot name="title"></slot>
@@ -10,7 +10,6 @@
                 <slot name="body"></slot>
                 <slot name="form"></slot>
             </div>
-
         </div>
     </div>
 </template>

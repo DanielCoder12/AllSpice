@@ -19,9 +19,9 @@
         </div>
         <div class="">
             <div class="bg-blur rounded m-2 px-2 py-1">
-                <p class="text-white mb-1 fw-bold">{{ recipe.title }}</p>
+                <p class="text-white text-break mb-1 fw-bold">{{ recipe.title }}</p>
                 <!-- <p class="text-white mb-0"> {{ recipe.instructions }}</p> -->
-                <p class="text-white mb-0">By: {{ recipe.creator.name }}</p>
+                <p class="text-white mb-0 text-break">By: {{ recipe.creator.name }}</p>
 
             </div>
         </div>

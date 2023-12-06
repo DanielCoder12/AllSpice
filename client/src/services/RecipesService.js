@@ -8,7 +8,7 @@ class RecipesService {
 
     async getRecipes() {
         const res = await api.get('api/recipes')
-        logger.log(res.data)
+        // logger.log(res.data)
         AppState.filteredRecipes = res.data.map(r => new Recipe(r))
         AppState.recipes = res.data.map(r => new Recipe(r))
 
@@ -16,19 +16,23 @@ class RecipesService {
 
     async createRecipe(formData) {
         const res = await api.post('api/recipes', formData)
-        logger.log(res.data)
+        // logger.log(res.data)
         if (AppState.filter === 'Favorites') {
-            logger.log('one added')
+            // logger.log('one added')
+            res.data.creator = { name: AppState.account.name }
             AppState.recipes.push(new Recipe(res.data))
             return
         }
         if (AppState.filter === 'Home') {
+            // logger.log('this log ran')
+            res.data.creator = { name: AppState.account.name }
             AppState.recipes.push(new Recipe(res.data))
             AppState.filteredRecipes = AppState.recipes
             return
         }
         if (AppState.filter === 'My Recipes') {
-            logger.log('two added')
+            // logger.log('two added')
+            res.data.creator = { name: AppState.account.name }
             AppState.recipes.push(new Recipe(res.data))
             this.changeFilter('My Recipes')
             return
@@ -80,7 +84,7 @@ class RecipesService {
 
     async addIngredient(ingredient) {
         const res = await api.post('api/ingredients', ingredient)
-        logger.log('new ingredient', res.data)
+        // logger.log('new ingredient', res.data)
         AppState.activeIngredients.push(new Ingredient(res.data))
     }
 }
