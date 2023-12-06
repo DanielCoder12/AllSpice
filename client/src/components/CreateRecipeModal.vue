@@ -74,7 +74,7 @@ export default {
             categories,
             async createRecipe() {
                 try {
-                    logger.log(formData.value)
+                    // logger.log(formData.value)
                     await recipesService.createRecipe(formData.value)
                     Modal.getOrCreateInstance('#recipeModal').hide()
                     formData.value = {}

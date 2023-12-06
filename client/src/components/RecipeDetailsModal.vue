@@ -47,8 +47,8 @@
                                         <textarea :disabled="isLocked.locked" maxlength="1000" v-model="data.instructions"
                                             class="rounded p-2" name="" id="">{{ recipe.instructions }}</textarea>
                                         <button @click=" unlock()" v-if="isLocked.locked" type="button"
-                                            class="btn btn-secondary">Edit</button>
-                                        <button v-else type="submit" class="btn btn-success py-1">Save</button>
+                                            class="btn py-1 btn-secondary">Edit</button>
+                                        <button v-else type="submit" class="btn bg-green text-white py-1">Save</button>
                                     </form>
 
 
@@ -70,7 +70,7 @@
                                     <div v-if="!ingredients[0]?.name">
                                         no ingredients
                                     </div>
-                                    <div v-else class="overflow">
+                                    <div v-else class="overflow flex-grow-1">
 
                                         <p class="mb-1 d-flex justify-content-between text-break"
                                             v-for="ingredient in ingredients" :key="ingredient.id">{{
@@ -152,7 +152,7 @@ export default {
             ingredients: computed(() => AppState.activeIngredients),
             unlock() {
                 isLocked.locked = false
-                logger.log(isLocked)
+                // logger.log(isLocked)
             },
             async addIngredient() {
                 try {
@@ -170,7 +170,11 @@ export default {
             },
             async saveInstructions() {
                 try {
-                    logger.log(data.value)
+                    // logger.log(data.value)
+                    if (this.recipe.instructions == data.value.instructions) {
+                        isLocked.locked = true
+                        return
+                    }
                     await recipesService.saveInstructions(data.value.instructions, this.recipe.id)
                     isLocked.locked = true
                 } catch (error) {
@@ -228,14 +232,20 @@ export default {
 
 <style lang="scss" scoped>
 // FIXME FIX IT SO IT SCROLLS WHEN THEY PUT IN A LOT OF INGREDIENTS
-// .overflow {
-//     height: 100%;
-//     overflow: scroll;
-// }
+.overflow {
+    height: 287px;
+    overflow: scroll;
+    overflow-x: hidden;
+}
+
 .position {
     position: absolute;
     width: 67%;
     top: 7rem;
+}
+
+.bg-green {
+    background-color: #527360;
 }
 
 textarea {

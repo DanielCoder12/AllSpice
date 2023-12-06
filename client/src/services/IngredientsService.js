@@ -11,7 +11,7 @@ class IngredientsService {
         }
         AppState.activeIngredients = []
         const res = await api.get(`api/recipes/${recipeId}/ingredients`)
-        logger.log('ingredients', res.data)
+        // logger.log('ingredients', res.data)
         AppState.activeIngredients = res.data.map(i => new Ingredient(i))
     }
 

@@ -55,7 +55,6 @@ export default {
     })
     async function getRecipes() {
       try {
-
         await recipesService.getRecipes()
       } catch (error) {
         Pop.error(error)

@@ -78,7 +78,7 @@ class RecipesService {
     }
 
     async saveInstructions(instructions, recipeId) {
-        const newRecipe = await api.put(`api/recipes/${recipeId}`, { instructions })
+        await api.put(`api/recipes/${recipeId}`, { instructions })
 
     }
 
