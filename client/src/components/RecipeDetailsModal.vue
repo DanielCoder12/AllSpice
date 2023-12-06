@@ -44,11 +44,11 @@
                                     <!-- leave it disabled until user clicks edit -->
                                     <form v-if="recipe.creatorId == account.id" @submit.prevent="saveInstructions()"
                                         class="text-end height w-100">
-                                        <textarea maxlength="1000" v-model="data.instructions" class="rounded p-2" name=""
-                                            id="">{{ recipe.instructions }}</textarea>
-                                        <!-- <button @click=" unlock()" v-if="isLocked == true" type="button"
-                                            class="btn btn-secondary">Edit</button> -->
-                                        <button type="submit" class="btn btn-success py-1">Save</button>
+                                        <textarea :disabled="isLocked.locked" maxlength="1000" v-model="data.instructions"
+                                            class="rounded p-2" name="" id="">{{ recipe.instructions }}</textarea>
+                                        <button @click=" unlock()" v-if="isLocked.locked" type="button"
+                                            class="btn btn-secondary">Edit</button>
+                                        <button v-else type="submit" class="btn btn-success py-1">Save</button>
                                     </form>
 
 
@@ -128,13 +128,13 @@ import { logger } from '../utils/Logger';
 
 export default {
     setup() {
-        let isLocked = true
+        let isLocked = reactive({ locked: true })
         const data = ref({})
         watchEffect(() => {
             AppState.activeRecipe
             getIngredients(),
                 data.value = { instructions: AppState.activeRecipe.instructions }
-            isLocked = true
+            isLocked.locked = true
         })
         async function getIngredients() {
             try {
@@ -151,7 +151,7 @@ export default {
             favorites: computed(() => AppState.favorites),
             ingredients: computed(() => AppState.activeIngredients),
             unlock() {
-                isLocked = false
+                isLocked.locked = false
                 logger.log(isLocked)
             },
             async addIngredient() {
@@ -172,7 +172,7 @@ export default {
                 try {
                     logger.log(data.value)
                     await recipesService.saveInstructions(data.value.instructions, this.recipe.id)
-                    isLocked = true
+                    isLocked.locked = true
                 } catch (error) {
                     Pop.error(error)
                 }
