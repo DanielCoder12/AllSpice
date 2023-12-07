@@ -14,7 +14,7 @@
       <!-- recipes -->
       <div class="col-12">
         <section class="row">
-          <div class="col-4 p-4" v-for="recipe in recipes" :key="recipe.id">
+          <div class="col-12 col-md-4 p-4" v-for="recipe in recipes" :key="recipe.id">
             <div class="px-4 py-3">
               <RecipeCard :recipe="recipe" />
 

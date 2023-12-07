@@ -66,6 +66,7 @@ public class RecipesRepository
         acc.*
         FROM recipes rec
         JOIN accounts acc ON acc.id = rec.creatorId
+        ORDER BY rec.Id
 
         ;";
         List<Recipe> recipes = _db.Query<Recipe, Account, Recipe>(sql, (rec, acc) =>

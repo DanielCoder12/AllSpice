@@ -1,9 +1,15 @@
 <template>
-    <div class="rounded filter-position bg-white d-flex shadow">
+    <div class="rounded d-none d-md-flex filter-position bg-white  shadow">
         <div class="d-flex" v-for="f in filters" :key="f">
             <button @click="changeFilter(f)" :class="{ 'bg-gray': f == filter.toString() }"
                 class="btn custom-font text-grn fs-5 px-5 py-3">{{ f }}</button>
 
+        </div>
+    </div>
+
+    <div class="d-flex d-md-none bg-white  shadow rounded">
+        <div @click="changeFilter(f)" v-for="f in filters" :key="f" :class="{ 'bg-gray': f == filter.toString() }" class="">
+            <button class="btn custom-font text-grn">{{ f }}</button>
         </div>
     </div>
 </template>

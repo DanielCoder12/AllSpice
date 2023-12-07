@@ -68,7 +68,7 @@ class RecipesService {
             AppState.filteredRecipes = AppState.recipes
         }
         this.changeFilter(AppState.filter)
-        AppState.filteredRecipes = AppState.filteredRecipes.filter(r => r.category.toLowerCase().includes(search.toLowerCase()))
+        AppState.filteredRecipes = AppState.filteredRecipes.filter(r => r.category.toLowerCase().includes(search.toLowerCase()) || r.title.toLowerCase().includes(search.toLowerCase()))
     }
 
     async deleteRecipe(recipeId) {
