@@ -33,15 +33,11 @@
                             <p>{{ recipe.creator.name }}'s recipe</p>
                         </div>
                         <div class="d-flex h-75 position ">
-                            <!-- <div class="w-50"> -->
-
                             <ModalCard>
                                 <template #title>
                                     <p class="mb-0">Recipe Steps</p>
                                 </template>
                                 <template #body>
-                                    <!-- FIXME ADD EDIT BUTTON THAT TAKES OFF DISABLED PROPERTY -->
-                                    <!-- leave it disabled until user clicks edit -->
                                     <form v-if="recipe.creatorId == account.id" @submit.prevent="saveInstructions()"
                                         class="text-end height w-100">
                                         <textarea :disabled="isLocked.locked" maxlength="1000" v-model="data.instructions"
@@ -50,18 +46,10 @@
                                             class="btn py-1 btn-secondary">Edit</button>
                                         <button v-else type="submit" class="btn bg-green text-white py-1">Save</button>
                                     </form>
-
-
                                     <textarea v-else disabled name="" id=""
                                         class="rounded p-2"> {{ recipe.instructions }}</textarea>
-
                                 </template>
-                                <!-- <template #form>form</template> -->
                             </ModalCard>
-                            <!-- </div> -->
-                            <!-- <div class="w-50"> -->
-
-                            <!-- FIXME FIX THE FORM SO YOU CAN ADD AND DELETE INGREDIENTS -->
                             <ModalCard>
                                 <template #title>
                                     <p class="mb-0">Ingredients</p>
@@ -71,7 +59,6 @@
                                         no ingredients
                                     </div>
                                     <div v-else class="overflow flex-grow-1">
-
                                         <p class="mb-1 d-flex justify-content-between text-break"
                                             v-for="ingredient in ingredients" :key="ingredient.id">{{
                                                 ingredient.quantity }}
@@ -82,15 +69,11 @@
                                                     role="button"></i></span>
                                         </p>
                                     </div>
-                                    <!-- <div v-else>
-                                        <p>{{ ingredients[0]?.name }}</p>
-                                    </div> -->
                                 </template>
                                 <template #form>
                                     <!-- FIXME MAKE LOOK BETTER -->
                                     <form v-if="recipe.creatorId == account.id" @submit.prevent="addIngredient()"
                                         class="d-flex">
-
                                         <input maxlength="25" v-model="data.name" type="text" class="form-control"
                                             placeholder="Add Ingredients...">
                                         <input maxlength="15" v-model="data.quantity" type="text" class="form-control"
@@ -102,11 +85,7 @@
                                     </form>
                                 </template>
                             </ModalCard>
-                            <!-- </div> -->
-
-
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -231,7 +210,6 @@ export default {
 
 
 <style lang="scss" scoped>
-// FIXME FIX IT SO IT SCROLLS WHEN THEY PUT IN A LOT OF INGREDIENTS
 .overflow {
     height: 287px;
     overflow: scroll;
@@ -304,5 +282,7 @@ textarea {
 .picture-style {
     height: 100%;
     width: 375px;
+    object-fit: cover;
+    object-position: center;
 }
 </style>

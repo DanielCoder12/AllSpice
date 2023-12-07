@@ -91,5 +91,7 @@ export default {
     height: 25rem;
     width: 100%;
     transition: .25s;
+    object-fit: cover;
+    object-position: center;
 }
 </style>
